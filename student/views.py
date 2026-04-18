@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Student
-from .serializers import StudentSerializer
+from .models import Student, AcademicPerformance, ParentEducation, FamilyBackground, School
+from .serializers import StudentSerializer, AcademicPerformanceSerializer, ParentEducationSerializer, FamilyBackgroundSerializer, SchoolSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -14,6 +14,75 @@ def student_list_create(request):
 
     if request.method == 'POST':
         serializer = StudentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    
+
+
+from .models import AcademicPerformance
+from .serializers import AcademicPerformanceSerializer
+
+@api_view(['GET', 'POST'])
+def academic_performance_list_create(request):
+
+    if request.method == 'GET':
+        data = AcademicPerformance.objects.all()
+        serializer = AcademicPerformanceSerializer(data, many=True)
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        serializer = AcademicPerformanceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    
+
+@api_view(['GET', 'POST'])
+def parent_education_list_create(request):
+
+    if request.method == 'GET':
+        data = ParentEducation.objects.all()
+        serializer = ParentEducationSerializer(data, many=True)
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        serializer = ParentEducationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    
+
+
+@api_view(['GET', 'POST'])
+def family_background_list_create(request):
+
+    if request.method == 'GET':
+        data = FamilyBackground.objects.all()
+        serializer = FamilyBackgroundSerializer(data, many=True)
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        serializer = FamilyBackgroundSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    
+
+@api_view(['GET', 'POST'])
+def school_list_create(request):
+
+    if request.method == 'GET':
+        data = School.objects.all()
+        serializer = SchoolSerializer(data, many=True)
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        serializer = SchoolSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

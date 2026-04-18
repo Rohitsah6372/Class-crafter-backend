@@ -13,3 +13,17 @@ class AcademicPerformanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = AcademicPerformance
         fields = '__all__'
+
+
+from .models import FamilyBackground, ParentEducation
+
+class ParentEducationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ParentEducation
+        fields = '__all__'
+
+
+class FamilyBackgroundSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FamilyBackground
+        fields = '__all__'

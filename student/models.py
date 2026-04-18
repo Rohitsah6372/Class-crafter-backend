@@ -18,3 +18,26 @@ class AcademicPerformance(models.Model):
 
     def __str__(self):
         return f"AcademicPerformance {self.student.id}"
+    
+
+class ParentEducation(models.Model):
+    parental_education_level = models.IntegerField()
+
+    def __str__(self):
+        return f"Education {self.parental_education_level}"
+    
+
+class FamilyBackground(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+
+    family_income = models.IntegerField()
+    parental_involvement = models.IntegerField()
+
+    parent_education = models.ForeignKey(
+        ParentEducation,
+        on_delete=models.SET_NULL,
+        null=True
+    )
+
+    def __str__(self):
+        return f"FamilyBackground {self.student.id}"    

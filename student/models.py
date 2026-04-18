@@ -116,3 +116,12 @@ class Health(models.Model):
     physical_activity = models.FloatField()
     sleep_hours = models.FloatField()
     learning_disabilities = models.IntegerField()
+
+
+class Location(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+
+    distance_from_home = models.IntegerField()
+
+
+

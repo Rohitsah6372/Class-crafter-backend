@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Health, Student, AcademicPerformance, ParentEducation, FamilyBackground, School, Activity, PeerGroup, TechnologyAccess
+from .models import Health, Location, Student, AcademicPerformance, ParentEducation, FamilyBackground, School, Activity, PeerGroup, TechnologyAccess
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -57,4 +57,9 @@ class TechnologyAccessSerializer(serializers.ModelSerializer):
 class HealthSerializer(serializers.ModelSerializer):
     class Meta:
         model = Health
+        fields = '__all__'
+
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
         fields = '__all__'

@@ -27,3 +27,11 @@ class FamilyBackgroundSerializer(serializers.ModelSerializer):
     class Meta:
         model = FamilyBackground
         fields = '__all__'
+
+
+from .models import School
+
+class SchoolSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = School
+        fields = '__all__'

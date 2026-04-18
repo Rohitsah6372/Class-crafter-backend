@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Student, AcademicPerformance, ParentEducation, FamilyBackground
-from .serializers import StudentSerializer, AcademicPerformanceSerializer, ParentEducationSerializer, FamilyBackgroundSerializer
+from .models import Student, AcademicPerformance, ParentEducation, FamilyBackground, School
+from .serializers import StudentSerializer, AcademicPerformanceSerializer, ParentEducationSerializer, FamilyBackgroundSerializer, SchoolSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -67,6 +67,22 @@ def family_background_list_create(request):
 
     if request.method == 'POST':
         serializer = FamilyBackgroundSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    
+
+@api_view(['GET', 'POST'])
+def school_list_create(request):
+
+    if request.method == 'GET':
+        data = School.objects.all()
+        serializer = SchoolSerializer(data, many=True)
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        serializer = SchoolSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

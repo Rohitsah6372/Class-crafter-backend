@@ -1,8 +1,26 @@
 from django.db import models
 
+class School(models.Model):
+    school_type = models.IntegerField()
+    access_to_resources = models.IntegerField()
+    teacher_quality = models.IntegerField()
+
+    def __str__(self):
+        return f"School {self.id}"
+    
+
+
+    
 # Create your models here.
 class Student(models.Model):
     gender = models.IntegerField()
+
+    school = models.ForeignKey(
+        School,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return f"Student {self.id}"
@@ -41,3 +59,4 @@ class FamilyBackground(models.Model):
 
     def __str__(self):
         return f"FamilyBackground {self.student.id}"    
+    

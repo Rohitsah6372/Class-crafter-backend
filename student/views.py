@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Student, AcademicPerformance, ParentEducation, FamilyBackground, School, Activity, PeerGroup, TechnologyAccess
-from .serializers import StudentSerializer, AcademicPerformanceSerializer, ParentEducationSerializer, FamilyBackgroundSerializer, SchoolSerializer, ActivitySerializer, PeerGroupSerializer, TechnologyAccessSerializer 
+from .models import Student, AcademicPerformance, ParentEducation, FamilyBackground, School, Activity, PeerGroup, TechnologyAccess, Health
+from .serializers import StudentSerializer, AcademicPerformanceSerializer, ParentEducationSerializer, FamilyBackgroundSerializer, SchoolSerializer, ActivitySerializer, PeerGroupSerializer, TechnologyAccessSerializer ,HealthSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -133,6 +133,22 @@ def technology_access_list_create(request):
 
     if request.method == 'POST':
         serializer = TechnologyAccessSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    
+
+@api_view(['GET', 'POST'])
+def health(request):
+
+    if request.method == 'GET':
+        data = Health.objects.all()
+        serializer = HealthSerializer(data, many=True)
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        serializer = HealthSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

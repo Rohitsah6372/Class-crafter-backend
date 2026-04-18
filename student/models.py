@@ -9,7 +9,6 @@ class School(models.Model):
         return f"School {self.id}"
     
 
-
 class Activity(models.Model):
     name = models.CharField(max_length=100)
 
@@ -77,6 +76,7 @@ class AcademicPerformance(models.Model):
     attendance = models.FloatField()
     previous_scores = models.FloatField()
     tutoring_sessions = models.FloatField()
+    motivation_level = models.IntegerField(default=0)
 
     def __str__(self):
         return f"AcademicPerformance {self.student.id}"
@@ -107,3 +107,12 @@ class FamilyBackground(models.Model):
 
 
 
+
+
+
+class Health(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+
+    physical_activity = models.FloatField()
+    sleep_hours = models.FloatField()
+    learning_disabilities = models.IntegerField()

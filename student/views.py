@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Student, AcademicPerformance, ParentEducation, FamilyBackground, School, Activity
-from .serializers import StudentSerializer, AcademicPerformanceSerializer, ParentEducationSerializer, FamilyBackgroundSerializer, SchoolSerializer, ActivitySerializer
+from .models import Student, AcademicPerformance, ParentEducation, FamilyBackground, School, Activity, PeerGroup, TechnologyAccess
+from .serializers import StudentSerializer, AcademicPerformanceSerializer, ParentEducationSerializer, FamilyBackgroundSerializer, SchoolSerializer, ActivitySerializer, PeerGroupSerializer, TechnologyAccessSerializer 
 
 
 @api_view(['GET', 'POST'])
@@ -101,6 +101,38 @@ def activity_list_create(request):
 
     if request.method == 'POST':
         serializer = ActivitySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    
+
+@api_view(['GET', 'POST'])
+def peer_group_list_create(request):
+
+    if request.method == 'GET':
+        data = PeerGroup.objects.all()
+        serializer = PeerGroupSerializer(data, many=True)
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        serializer = PeerGroupSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    
+
+@api_view(['GET', 'POST'])
+def technology_access_list_create(request):
+
+    if request.method == 'GET':
+        data = TechnologyAccess.objects.all()
+        serializer = TechnologyAccessSerializer(data, many=True)
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        serializer = TechnologyAccessSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

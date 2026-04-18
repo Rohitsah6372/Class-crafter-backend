@@ -17,7 +17,15 @@ class Activity(models.Model):
         return self.name
 
 
+
+class PeerGroup(models.Model):
+    peer_influence = models.IntegerField()
+
+    def __str__(self):
+        return f"PeerGroup {self.id}"
     
+
+
 # Create your models here.
 class Student(models.Model):
     gender = models.IntegerField()
@@ -34,8 +42,32 @@ class Student(models.Model):
         blank=True
     )
 
+
+    peer_group = models.ForeignKey(
+    PeerGroup,
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=True
+    )
+
     def __str__(self):
         return f"Student {self.id}"
+    
+
+
+
+
+
+
+class TechnologyAccess(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+
+    internet_access = models.IntegerField()
+
+    def __str__(self):
+        return f"TechAccess {self.student.id}"
+
+
     
 
 class AcademicPerformance(models.Model):
@@ -70,8 +102,8 @@ class FamilyBackground(models.Model):
     )
 
     def __str__(self):
-        return f"FamilyBackground {self.student.id}"    
-    
+        return f"FamilyBackground {self.student.id}" 
+
 
 
 

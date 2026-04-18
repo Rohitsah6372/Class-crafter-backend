@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Student
+from .models import Student, AcademicPerformance, ParentEducation, FamilyBackground, School, Activity, PeerGroup, TechnologyAccess
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -7,7 +7,6 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-from .models import AcademicPerformance
 
 class AcademicPerformanceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,7 +14,6 @@ class AcademicPerformanceSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-from .models import FamilyBackground, ParentEducation
 
 class ParentEducationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,7 +27,6 @@ class FamilyBackgroundSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-from .models import School
 
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,10 +34,21 @@ class SchoolSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-from .models import Activity
 
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
         fields = '__all__'
         
+
+
+class PeerGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PeerGroup
+        fields = '__all__'
+
+
+class TechnologyAccessSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TechnologyAccess
+        fields = '__all__'

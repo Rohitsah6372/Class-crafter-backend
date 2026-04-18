@@ -10,6 +10,13 @@ class School(models.Model):
     
 
 
+class Activity(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
     
 # Create your models here.
 class Student(models.Model):
@@ -19,6 +26,11 @@ class Student(models.Model):
         School,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True
+    )
+
+    activities = models.ManyToManyField(
+        Activity,
         blank=True
     )
 
@@ -60,3 +72,6 @@ class FamilyBackground(models.Model):
     def __str__(self):
         return f"FamilyBackground {self.student.id}"    
     
+
+
+

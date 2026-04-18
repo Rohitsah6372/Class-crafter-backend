@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Student, AcademicPerformance, ParentEducation, FamilyBackground, School, Activity, PeerGroup, TechnologyAccess, Health
-from .serializers import StudentSerializer, AcademicPerformanceSerializer, ParentEducationSerializer, FamilyBackgroundSerializer, SchoolSerializer, ActivitySerializer, PeerGroupSerializer, TechnologyAccessSerializer ,HealthSerializer
+from .models import Student, AcademicPerformance, ParentEducation, FamilyBackground, School, Activity, PeerGroup, TechnologyAccess, Health, Location
+from .serializers import StudentSerializer, AcademicPerformanceSerializer, ParentEducationSerializer, FamilyBackgroundSerializer, SchoolSerializer, ActivitySerializer, PeerGroupSerializer, TechnologyAccessSerializer ,HealthSerializer, LocationSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -149,6 +149,22 @@ def health(request):
 
     if request.method == 'POST':
         serializer = HealthSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    
+
+@api_view(['GET', 'POST'])
+def location(request):
+
+    if request.method == 'GET':
+        data = Location.objects.all()
+        serializer = LocationSerializer(data, many=True)
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        serializer = LocationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

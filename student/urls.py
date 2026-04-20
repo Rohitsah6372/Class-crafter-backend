@@ -31,8 +31,7 @@ urlpatterns = [
     
     path('activities/', activity_list_create),
     path('peer-groups/', peer_group_list_create),
-    path('tech-access/', technology_access_list_create),
+    path('tech-access/<int:student_id>/', technology_access_list_create),
     path('health/', health),
     path('location/', location),
-    path('predict/<int:student_id>/', predict_student),
 ]

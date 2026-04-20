@@ -1,26 +1,37 @@
-from django.shortcuts import render
+import numpy as np
+from django.shortcuts import get_object_or_404, render
+from ml_api.services import ai_model, build_features, scaler
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
-from student.models import Student, AcademicPerformance, ParentEducation, FamilyBackground, School, Activity, PeerGroup, TechnologyAccess, Health, Location
-from ml_api.services import build_features
-
-
-import numpy as np
-
+from student.models import (AcademicPerformance, Activity, FamilyBackground,
+                            Health, Location, ParentEducation, PeerGroup,
+                            School, Student, TechnologyAccess)
 
 
 # Create your views here.
 @api_view(['GET'])
 def predict_student(request, student_id):
+    # return Response({
+    #     "message": "Working fine",
+    #     "student_id": student_id
+    # })
+
+
+    if not student_id:
+        return Response({"error": "Student ID is required"}, status=400)
+
+    student_id = int(student_id)
 
     if student_id <= 0:
         return Response({"error": "Invalid student ID"}, status=400)
+    
 
     student = Student.objects.filter(id=student_id).first()
     
+    
     if not student:
         return Response({"error": "Student not found"}, status=404)
+
 
     required_models = {
         "AcademicPerformance": AcademicPerformance,
@@ -43,7 +54,7 @@ def predict_student(request, student_id):
     if not student.activities.exists():
         return Response({"error": "Activity data not found"}, status=404)
 
-    student = Student.objects.get(id=student_id)
+    student = Student.objects.get(id=student_id) 
 
     academic = AcademicPerformance.objects.get(student=student)
     family = FamilyBackground.objects.get(student=student)
@@ -57,7 +68,7 @@ def predict_student(request, student_id):
     arr = np.array([features])
     arr = scaler.transform(arr)
 
-    prediction = model.predict(arr)[0]
+    prediction = ai_model.predict(arr)[0]
 
     return Response({
         "student": {
@@ -77,7 +88,7 @@ def predict_student(request, student_id):
         "family": {
             "parental_involvement": family.parental_involvement,
             "family_income": family.family_income,
-            "parental_education_level": getattr(family.parental_education, "parental_education_level", 0)
+            "parental_education_level": getattr(family.parent_education, "parental_education_level", 0)
         },
 
         "school": {

@@ -5,8 +5,8 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-MODEL_PATH = BASE_DIR / "ml_models/student_result_model.pkl"
-SCALER_PATH = BASE_DIR / "ml_models/scaler_big.pkl"
+# MODEL_PATH = BASE_DIR / "ml_models/student_result_model.pkl"
+# SCALER_PATH = BASE_DIR / "ml_models/scaler_big.pkl"
 
 
 # Quick-start development settings - unsuitable for production

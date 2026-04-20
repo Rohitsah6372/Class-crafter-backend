@@ -1,11 +1,16 @@
+import os
+
 import joblib
 import numpy as np
-import os
 from django.conf import settings
+from pyexpat import model
+
+MODEL_PATH = os.path.join(settings.BASE_DIR, "ml_models",  "student_result_model.pkl")
+SCALER_PATH = os.path.join(settings.BASE_DIR, "ml_models", "scaler_big.pkl")
 
 
-model = joblib.load(settings.MODEL_PATH)
-scaler = joblib.load(settings.SCALER_PATH)
+ai_model = joblib.load(MODEL_PATH)
+scaler = joblib.load(SCALER_PATH)
 
 
 def predict(features):
@@ -13,7 +18,7 @@ def predict(features):
     arr = np.array([features])
     arr = scaler.transform(arr)
 
-    prediction = model.predict(arr)[0]
+    prediction = ai_model.predict(arr)[0]
 
     return round(float(prediction), 2)
 

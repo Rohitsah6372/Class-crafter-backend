@@ -31,6 +31,12 @@ class Activity(models.Model):
         return self.name
 
 class PeerGroup(models.Model):
+    
+    class PeerInfluence(models.IntegerChoices):
+        NEGATIVE = 1, "Negative"
+        NEUTRAL = 2, "Neutral"
+        POSITIVE = 3, "Positive"
+    
     peer_influence = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
@@ -154,11 +160,12 @@ class FamilyBackground(models.Model):
         HIGH = 3, "High Involvement"
     
     parental_involvement = models.IntegerField(choices=ParentalInvolvement.choices, null=True, blank=True)
-
+    
     parent_education = models.ForeignKey(
-        ParentEducation,
+        ParentEducation,    
         on_delete=models.SET_NULL,
-        null=True
+        null=True,
+        blank=True
     )
 
     def __str__(self):

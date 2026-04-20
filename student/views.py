@@ -1,3 +1,5 @@
+from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -243,19 +245,48 @@ def peer_group_list_create(request):
     
 
 @api_view(['GET', 'POST'])
-def technology_access_list_create(request):
+def technology_access_list_create(request, student_id=None):
 
     if request.method == 'GET':
-        data = TechnologyAccess.objects.all()
+        if student_id:
+            data = TechnologyAccess.objects.filter(student_id=student_id)
+        else:
+            data = TechnologyAccess.objects.all()
+
         serializer = TechnologyAccessSerializer(data, many=True)
         return Response(serializer.data)
+    
+    
 
     if request.method == 'POST':
-        serializer = TechnologyAccessSerializer(data=request.data)
+
+        # ? Ensure student_id is provided
+        if not student_id:
+            return Response(
+                {"error": "student_id is required in URL"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # ? Check if student exists
+        student = get_object_or_404(Student, id=student_id)
+
+        # ? Prevent duplicate (OneToOne)
+        if TechnologyAccess.objects.filter(student=student).exists():
+            return Response(
+                {"error": "TechnologyAccess already exists for this student"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Attach student
+        data = request.data.copy()
+        data['student'] = student.id
+
+        serializer = TechnologyAccessSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
 @api_view(['GET', 'POST'])
